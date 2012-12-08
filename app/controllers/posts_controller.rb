@@ -24,8 +24,10 @@ class PostsController < ApplicationController
   # GET /posts/new
   # GET /posts/new.json
   def new
-    @post = Post.new(:user_id => params[:user_id])
 
+    @post = Post.new()
+    Rails.logger.info "hello log"
+    Rails.logger.info current_user.id
     respond_to do |format|
       format.html # new.html.erb
       format.json { render json: @post }
@@ -40,7 +42,7 @@ class PostsController < ApplicationController
   # POST /posts
   # POST /posts.json
   def create
-    @post = Post.new(params[:post])
+    @post = Post.new(params[:post].merge(:user_id => current_user.id))
 
     respond_to do |format|
       if @post.save
